@@ -71,6 +71,7 @@ public class Directory {
         return dir;
     }
 
+
     public Directory deleteDirectory(String toDelete) {
         for (int i = 0; i < filesList.size(); i++) // toDelete is a file
         {
@@ -96,7 +97,7 @@ public class Directory {
     public void printStructure() {
 
         // print folders
-        System.out.println("Directory name: " + name);
+        System.out.println("Directory name: " + name + ", Date created: " + dateCreated);
         System.out.print("Contains Files: ");
         if (filesList.size() == 0)
             System.out.println("No files");
@@ -126,4 +127,24 @@ public class Directory {
         }
     }
 
+    public boolean isUniqueName(String name) {
+        boolean isUnique = true;
+        if (this.name.equals(name))
+            isUnique = false;
+        else {
+            for(int j=0; j< filesList.size(); j++)
+            {
+                if(filesList.get(j).getName().equals(name)) {
+                    isUnique = false;
+                    break;
+                }
+            }
+            for (int i = 0; i < subDirectories.size(); i++) {
+                isUnique = subDirectories.get(i).isUniqueName(name);
+                if(!isUnique)
+                    break;
+            }
+        }
+        return isUnique;
+    }
 }

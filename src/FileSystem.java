@@ -10,16 +10,46 @@ public class FileSystem {
 
     void addFile(String parentDirName, String fileName, int fileSize) {
         Directory dirToAdd = getDirectoryByName(parentDirName);
-        dirToAdd.addFile(fileName, fileSize);
+        if (!checkLegalFile(fileName, fileSize))
+            System.out.println("The file '" + fileName + "' is illegal.");
+        else if ((dirToAdd == null))
+            System.out.println("The directory '" + parentDirName + "' doesn't exist.");
+        else
+            dirToAdd.addFile(fileName, fileSize);
+    }
+
+    private boolean checkLegalFile(String fileName, int fileSize) {
+        if (fileSize <= 0)
+            return false;
+        if (fileName.length() > 32)
+            return false;
+        if (!isUniqueName(fileName))
+            return false;
+        return true;
+    }
+
+    private boolean isUniqueName(String name) {
+        boolean isUnique;
+        for (int i = 0; i < fileSystemList.size(); i++) {
+            isUnique = fileSystemList.get(i).isUniqueName(name);
+            if (!isUnique)
+                return false;
+        }
+        return true;
     }
 
     void addDir(String parentDirName, String dirName) {
-        Directory dirToAdd = getDirectoryByName(parentDirName);
-        if (dirToAdd == null) {
+        Directory dirToAdd;
+        if (parentDirName == "") {
             dirToAdd = new Directory(dirName);
             this.fileSystemList.add(dirToAdd);
-        } else
+            return;
+        }
+        if (dirName.length() < 32 && isUniqueName(dirName) && parentDirName != null) {
+            dirToAdd = getDirectoryByName(parentDirName);
             dirToAdd.addDir(dirName);
+        } else
+            System.out.println("The directory '" + dirName + "' is illegal.");
     }
 
     private Directory getDirectoryByName(String parentDirName) {
