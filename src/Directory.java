@@ -66,11 +66,12 @@ public class Directory {
         else {
             for (int i = 0; i < subDirectories.size(); i++) {
                 dir = subDirectories.get(i).getDirectoryByName(dirName);
+                if(dir != null)
+                    return dir;
             }
         }
         return dir;
     }
-
 
     public Directory deleteDirectory(String toDelete) {
         for (int i = 0; i < filesList.size(); i++) // toDelete is a file
