@@ -39,6 +39,6 @@ public class File {
     //endregion
 
     public void printStructure() {
-        System.out.print(name + ", Size: " + size + ", Date created: " + dateCreated);
+        System.out.print(name + " Size: " + size + " Date created: " + dateCreated);
     }
 }
